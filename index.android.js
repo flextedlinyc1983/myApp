@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   Image,
+  ListView,
   StyleSheet,
   Text,
   View
@@ -24,11 +25,11 @@ var REQUEST_URL = API_URL + PARAMS;
 
 class myApp extends Component {
 
- // getInitialState: function() {
- //    return {
- //      movies: null,
- //    };
- //  },
+ /*getInitialState() {
+    return {
+      movies: null,
+    };
+  }*/
 
 /*  getInitialState() {
     return {
@@ -38,7 +39,12 @@ class myApp extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {movies: null};
+    this.state = {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      loaded: false,
+    };
   }
 
   componentDidMount() {
@@ -50,9 +56,9 @@ class myApp extends Component {
     fetch(REQUEST_URL)
       .then((response) => response.json())
       .then((responseData) => {
-        // console.log('yeah, seriously.');
         this.setState({
-          movies: responseData.movies,
+          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+          loaded: true,
         });
       })
       .done();
@@ -60,16 +66,26 @@ class myApp extends Component {
 
 
   render() {    
-    if (!this.state.movies) {
+    if (!this.state.loaded) {
       return this.renderLoadingView();
     }
 
+
+
+    return (
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderMovie}
+        style={styles.listView}
+      />
+    );
+
     // var movie = MOCKED_MOVIES_DATA[0];
-    var movie = this.state.movies[0];
+    // var movie = this.state.movies[0];
     
-    console.log('yeah, seriously:' + this.state.movies.length);
+    // console.log('yeah, seriously:' + this.state.movies.length);
     
-    return this.renderMovie(movie);
+    // return this.renderMovie(movie);
     /*return (
       <View style={styles.container}>
         <Image
@@ -144,6 +160,10 @@ const styles = StyleSheet.create({
   },
   year: {
     textAlign: 'center',
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#F5FCFF',
   },
 });
 
