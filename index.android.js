@@ -10,8 +10,15 @@ import {
   ListView,
   StyleSheet,
   Text,
-  View
+  View,
+  Navigator
 } from 'react-native';
+
+
+import SplashPage from './SplashPage';
+import ListPage from './ListPage';
+import DetailPage from './DetailPage';
+// var SplashPage = require('./SplashPage');
 
 var MOCKED_MOVIES_DATA = [
   {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
@@ -66,7 +73,7 @@ class myApp extends Component {
 
 
   render() {    
-    if (!this.state.loaded) {
+    /*if (!this.state.loaded) {
       return this.renderLoadingView();
     }
 
@@ -78,7 +85,23 @@ class myApp extends Component {
         renderRow={this.renderMovie}
         style={styles.listView}
       />
+    );*/
+
+    return (
+      // 預設的 Route 放在 splash
+      <Navigator
+        initialRoute={
+          {id: 'SplashPage'}
+        }
+        renderScene={this.renderScene.bind(this)}
+        configureScene={(route) => {
+          if (route.sceneConfig) {
+            return route.sceneConfig;
+          }
+          return Navigator.SceneConfigs.FloatFromRight;
+        }} />
     );
+
 
     // var movie = MOCKED_MOVIES_DATA[0];
     // var movie = this.state.movies[0];
@@ -101,6 +124,23 @@ class myApp extends Component {
 
   }
 
+  renderScene(route, navigator) {
+    if (route.id === 'SplashPage') {
+      return (
+        <SplashPage navigator={navigator} />
+      );
+    }
+    if (route.id === 'ListPage') {
+      return (
+        <ListPage navigator={navigator} />
+      );
+    }
+    if (route.id === 'DetailPage') {
+      return (
+        <DetailPage navigator={navigator} />
+      );
+    }
+  }
 
   renderLoadingView() {
     return (
