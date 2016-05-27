@@ -18,7 +18,7 @@ class SplashPage extends Component {
       navigator.replace({
         id: 'ListPage',
       });
-    }, 5000);
+    }, 2000);
   }
   render() {
     return (

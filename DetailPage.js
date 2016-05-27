@@ -4,7 +4,8 @@ import {
   View,
   Text,
   Navigator,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 
 class DetailPage extends Component {
@@ -22,7 +23,11 @@ class DetailPage extends Component {
           } />
     );
   }
-  renderScene(route, navigator) {
+  renderScene(route, navigator) {    
+    // ToastAndroid.show(this.props.name, ToastAndroid.SHORT);
+    // ToastAndroid.show(route.animal, ToastAndroid.SHORT);
+    // ToastAndroid.show('hello', ToastAndroid.SHORT);
+    // console.log(route.passProps);
     return (
       <View style={
         {
@@ -39,6 +44,7 @@ class DetailPage extends Component {
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
+    ToastAndroid.show('DetailPage index:' + index, ToastAndroid.SHORT);
     return (
       <TouchableOpacity style={
         {flex: 1, justifyContent: 'center'}

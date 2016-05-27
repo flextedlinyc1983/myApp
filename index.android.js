@@ -11,7 +11,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Navigator
+  Navigator,
+  ToastAndroid,
 } from 'react-native';
 
 
@@ -95,11 +96,17 @@ class myApp extends Component {
         }
         renderScene={this.renderScene.bind(this)}
         configureScene={(route) => {
-          if (route.sceneConfig) {
-            return route.sceneConfig;
+          if (route.type == 'Modal') {
+            // return route.sceneConfig;
+            // ToastAndroid.show('FloatFromBottom', ToastAndroid.SHORT);
+            return Navigator.SceneConfigs.FloatFromBottom;
           }
+          // ToastAndroid.show('FloatFromRight', ToastAndroid.SHORT);
           return Navigator.SceneConfigs.FloatFromRight;
-        }} />
+        }} 
+        
+        
+      />
     );
 
 
@@ -137,7 +144,7 @@ class myApp extends Component {
     }
     if (route.id === 'DetailPage') {
       return (
-        <DetailPage navigator={navigator} />
+        <DetailPage navigator={navigator} {...route.passProps} />
       );
     }
   }

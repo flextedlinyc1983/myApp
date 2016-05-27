@@ -5,6 +5,7 @@ import {
   Text,
   Navigator,
   TouchableOpacity,  
+  TouchableHighlight,
 } from 'react-native';
 
 class ListPage extends Component {
@@ -16,9 +17,7 @@ class ListPage extends Component {
           }
           navigationBar={
             <Navigator.NavigationBar
-              style={
-                {backgroundColor: 'orange'}
-              }
+              style={{backgroundColor: 'orange'}}
               routeMapper={NavigationBarRouteMapper} />
           } 
       />
@@ -38,13 +37,25 @@ class ListPage extends Component {
             這裡是 list page, 點我到下一頁
           </Text>
         </TouchableOpacity>
+
+        <TouchableHighlight 
+            onPress={ () => this.navigateNext('Hello World test', 'Modal') }>
+          <Text>
+            GO To View Test
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }
-  navigateNext() {
+  navigateNext(property, type='Normal') {
     this.props.navigator.push({
-      id: 'DetailPage'
+      id: 'DetailPage',
+      passProps: {
+        name: property
+      },
+      type: type
     });
+
   }
 }
 
@@ -57,9 +68,7 @@ var NavigationBarRouteMapper = {
   },
   Title(route, navigator, index, navState) {
     return (
-      <TouchableOpacity style={
-        {flex: 1, justifyContent: 'center'}
-      }>
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text>
           you are at List page 
         </Text>
